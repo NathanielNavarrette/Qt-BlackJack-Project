@@ -8,6 +8,7 @@
 #include <QLayout>
 #include <QObject>
 #include <vector>
+#include <QDebug>
 
 #include "player.h"
 #include "cardview.h"
@@ -30,48 +31,38 @@ public:
 private:
     Ui::MainWindow *ui;
     QWidget* displayArea = new QWidget(this);
+    QWidget* secondRow = new QWidget(this);
+    QWidget* thirdRow = new QWidget(this);
+    QWidget* nothing = new QWidget(this);
+
     QVBoxLayout* m_layout = new QVBoxLayout(this);
-    QHBoxLayout* m_layout = new QHBoxLayout(this);
+    QHBoxLayout* displayAreaLayout = new QHBoxLayout(displayArea);
+    QHBoxLayout* secondRowLayout = new QHBoxLayout(secondRow);
+    QHBoxLayout* thirdRowLayout = new QHBoxLayout(thirdRow);
+
     QWidget* buttonArea = new QWidget(displayArea);
 
-    QWidget* playButton = new QPushButton("Play Game", displayArea);
-    QWidget* closeButton = new QPushButton("Close", displayArea);
+    QWidget* returnButton = new QPushButton("Return to Game", buttonArea);
+    QWidget* playButton = new QPushButton("Play Game", buttonArea);
+    QWidget* closeButton = new QPushButton("Close", buttonArea);
 
-    /*
-    Player player1;
+    QWidget* optionsButton = new QPushButton("Options", buttonArea);
+    QWidget* loadButton = new QPushButton("Load Previous Game", buttonArea);
 
-    std::vector<QWidget*> outputtedCards;
+    QWidget* ruleButton = new QPushButton("Rules", buttonArea);
+    QWidget* aboutButton = new QPushButton("About", buttonArea);
 
-    QVBoxLayout *m_layout = new QVBoxLayout(this);
-
-    QWidget *topButtons = new QWidget(this);
-    QWidget *moneyDisplays = new QWidget(this);
-    QWidget *cardDisplays = new CardView(this);
-    QWidget *gameOptions = new QWidget(this);
-
-    QHBoxLayout *topButtonLayout = new QHBoxLayout(topButtons);
-    QWidget *startButton = new QPushButton("Start Game", topButtons);
-    QWidget *optionsButton = new QPushButton("Game Options", topButtons);
-    QWidget *saveButton = new QPushButton("Save Game", topButtons);
-    QWidget *loadButton = new QPushButton("Load Game", topButtons);
-
-    QHBoxLayout *moneyDisplayLayout = new QHBoxLayout(moneyDisplays);
-    std::vector<QWidget*> playerMonies; //will get created in the cpp file
-
-    QHBoxLayout *cardDisplayLayout = new QHBoxLayout(cardDisplays);
-
-    QHBoxLayout *gameOptionsLayout = new QHBoxLayout(gameOptions);
-    QWidget *hitButton = new QPushButton("Hit", gameOptions);
-    QWidget *stayButton = new QPushButton("Stay", gameOptions);
-    QWidget *splitButton = new QPushButton("Split", gameOptions);
-    QWidget *betButton = new QPushButton("Bet", gameOptions);
-
-    */
 public slots:
+    void menu_pressed();
 
 private slots:
     void play_clicked();
+    void return_clicked();
     void close_clicked();
+    void options_clicked();
+    void load_clicked();
+    void rules_clicked();
+    void about_clicked();
 
 
 signals:

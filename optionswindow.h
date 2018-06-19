@@ -27,6 +27,7 @@ private:
     int m_difficulty_value;
     int m_num_of_players = 3;
     int m_starting_money = 500;
+    int m_min_bet = 20;
     std::string dif_string[5]{"Novice", "Casual", "Hit Me", "Professional", "Cheaters"};
 
 signals:

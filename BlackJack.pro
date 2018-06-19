@@ -6,6 +6,7 @@
 
 QT       += core gui
 
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = BlackJack
@@ -108,8 +109,7 @@ DISTFILES += \
     images/cards/queen_of_hearts2.png \
     images/cards/queen_of_spades2.png \
     images/blackjack_table.png \
-    images/draw.png \
-    images/lose.png \
-    images/win.png \
-    images/background.png \
-    background.png
+    images/background.png
+
+RESOURCES += \
+    images.qrc

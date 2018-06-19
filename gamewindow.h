@@ -39,9 +39,9 @@ private:
 
     QHBoxLayout *topButtonLayout = new QHBoxLayout(topButtons);
     QWidget *startButton = new QPushButton("Start Game", topButtons);
-    QWidget *optionsButton = new QPushButton("Game Options", topButtons);
+    QWidget *resetButton = new QPushButton("Reset Game", topButtons);
     QWidget *saveButton = new QPushButton("Save Game", topButtons);
-    QWidget *loadButton = new QPushButton("Load Game", topButtons);
+    QWidget *menuButton = new QPushButton("Go To Menu", topButtons);
 
     QHBoxLayout *moneyDisplayLayout = new QHBoxLayout(moneyDisplays);
     std::vector<QWidget*> playerMonies; //will get created in the cpp file
@@ -56,9 +56,12 @@ private:
 
 public slots:
 
+private slots:
+    void game_start();
+    void returnToMenu();
 
 signals:
-
+    void menuReturn();
 
 };
 
