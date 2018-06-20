@@ -56,5 +56,7 @@
         <file>images/cards/queen_of_hearts2.png</file>
         <file>images/cards/queen_of_spades2.png</file>
         <file>images/icon.png</file>
+        <file>images/cards/blank_card.png</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

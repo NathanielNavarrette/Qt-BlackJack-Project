@@ -38,6 +38,8 @@ GameWindow::GameWindow(QWidget *parent) :
 
     ui->centralwidget->setLayout(m_layout);
 
+    m_icon->show();
+
     connect(this, SIGNAL(menuReturn()), parent, SLOT(menu_pressed()));
     connect(startButton, SIGNAL(clicked()), this, SLOT(game_start()));
     connect(menuButton, SIGNAL(clicked()), this, SLOT(returnToMenu()));

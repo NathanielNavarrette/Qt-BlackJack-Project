@@ -1,6 +1,7 @@
 #ifndef GAMEWINDOW_H
 #define GAMEWINDOW_H
 
+#include <QSystemTrayIcon>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QScrollArea>
@@ -8,6 +9,7 @@
 #include <QLayout>
 #include <QObject>
 #include <vector>
+#include <QIcon>
 
 #include"player.h"
 #include"cardview.h"
@@ -26,6 +28,9 @@ public:
 
 private:
     Ui::GameWindow *ui;
+
+    QSystemTrayIcon* m_icon = new QSystemTrayIcon(this);
+
     Player player1;
 
     std::vector<QWidget*> outputtedCards;

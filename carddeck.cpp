@@ -9,6 +9,13 @@ CardDeck::CardDeck()
     shuffleDeck();
 }
 
+Card CardDeck::getCard()
+{
+    Card tmp_card = m_deck.at(0);
+    m_deck.erase(m_deck.begin());
+    return tmp_card;
+}
+
 int CardDeck::get_size()
 {
     return m_deck.size();
@@ -17,6 +24,11 @@ int CardDeck::get_size()
 int CardDeck::get_value_at(int pos)
 {
     return m_deck.at(pos).get_value();
+}
+
+QString CardDeck::get_name_at(int pos)
+{
+    return m_deck.at(pos).get_card_name();
 }
 
 void CardDeck::shuffleDeck()

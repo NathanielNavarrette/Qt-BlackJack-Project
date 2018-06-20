@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QPixmap iconImg(":/images/images/icon.png");
+    QIcon qiimg(iconImg);
+    m_icon->setIcon(qiimg);
 
     this->setMinimumHeight(500);
     this->setMinimumWidth(533);
@@ -61,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent) :
     returnButton->hide();
 
     ui->centralWidget->setLayout(m_layout);
+    m_icon->show();
 }
 
 MainWindow::~MainWindow()
@@ -80,6 +84,7 @@ void MainWindow::play_clicked()
     m_game = new GameWindow(this);
     m_game->show();
     this->hide();
+    m_icon->show();
 
     displayAreaLayout->removeWidget(playButton);
     delete playButton;

@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QSystemTrayIcon>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QScrollArea>
@@ -9,6 +10,7 @@
 #include <QObject>
 #include <vector>
 #include <QDebug>
+#include <QIcon>
 
 #include "player.h"
 #include "cardview.h"
@@ -30,6 +32,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    QSystemTrayIcon* m_icon = new QSystemTrayIcon(this);
+
     QWidget* displayArea = new QWidget(this);
     QWidget* secondRow = new QWidget(this);
     QWidget* thirdRow = new QWidget(this);

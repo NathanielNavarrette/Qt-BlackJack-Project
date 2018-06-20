@@ -15,9 +15,9 @@ public:
     Player();
     int get_current_money();
 
-
 private:
     CardDeck m_deck;
+    std::vector<Card> m_hand;
     void debug_deck();
     int m_money = 500;
 };

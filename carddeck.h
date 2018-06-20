@@ -25,6 +25,7 @@ public:
     Card getCard();
     int get_size();
     int get_value_at(int pos);
+    QString get_name_at(int pos);
 
 
 private:
