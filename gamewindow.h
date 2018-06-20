@@ -6,8 +6,10 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QSettings>
-#include <QLayout>
 #include <QObject>
+#include <QLayout>
+#include <QEvent>
+#include <QTimer>
 #include <vector>
 #include <QIcon>
 
@@ -60,10 +62,12 @@ private:
     QWidget *betButton = new QPushButton("Bet", gameOptions);
 
 public slots:
+    void close_game();
 
 private slots:
     void game_start();
     void returnToMenu();
+    void check_active();
 
 signals:
     void menuReturn();

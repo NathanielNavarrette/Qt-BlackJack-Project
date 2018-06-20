@@ -7,9 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QPixmap iconImg(":/images/images/icon.png");
-    QIcon qiimg(iconImg);
+    QIcon qiimg(QPixmap(":/images/images/icon.png"));
     m_icon->setIcon(qiimg);
+    this->setWindowIcon(qiimg);
 
     this->setMinimumHeight(500);
     this->setMinimumWidth(533);
@@ -94,8 +94,10 @@ void MainWindow::play_clicked()
 void MainWindow::return_clicked()
 {
     qDebug() << "Return button clicked";
+    m_game->showNormal();
     m_game->show();
     this->hide();
+
 }
 
 void MainWindow::close_clicked()

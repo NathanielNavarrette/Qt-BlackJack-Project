@@ -7,6 +7,9 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QIcon qiimg(QPixmap(":/images/images/icon.png"));
+    this->setWindowIcon(qiimg);
+
     this->setMinimumHeight(450);
     this->setMinimumWidth(450);
 
@@ -39,6 +42,12 @@ GameWindow::GameWindow(QWidget *parent) :
     ui->centralwidget->setLayout(m_layout);
 
     m_icon->show();
+    this->show();
+
+    QTimer *timer = new QTimer(this);
+
+    connect(timer, SIGNAL(timeout()), this, SLOT(check_active()));
+    timer->start(50);
 
     connect(this, SIGNAL(menuReturn()), parent, SLOT(menu_pressed()));
     connect(startButton, SIGNAL(clicked()), this, SLOT(game_start()));
@@ -62,4 +71,21 @@ void GameWindow::game_start()
 void GameWindow::returnToMenu()
 {
     emit menuReturn();
+}
+
+void GameWindow::check_active()
+{
+    if (this->isActiveWindow())
+    {
+        //qDebug() << "It is active";
+        //do nothing
+    }else{
+        //qDebug() << "It is not active";
+        emit menuReturn();
+    }
+}
+
+void GameWindow::close_game()
+{
+
 }
