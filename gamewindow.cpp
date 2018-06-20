@@ -70,20 +70,40 @@ void GameWindow::game_start()
     //after clicking this, the options to play the game should show on the bottom
     gameOptions->show();
 
-    while(!(player1.check_if_empty()))
-    {
-        QPixmap* displayImg = player1.get_card();
-        QWidget* this_card = new QWidget(cardDisplays);
-        this_card->setMaximumSize(100, 146);
-        this_card->setMinimumSize(50, 73);
+    //while(!(player1.check_if_empty()))
+    //{
+    QPixmap* displayImg = player1.get_card();
+    QWidget* this_card = new QWidget(cardDisplays);
+    this_card->setMaximumSize(100, 146);
+    this_card->setMinimumSize(50, 73);
 
-        *displayImg = displayImg->scaled(this_card->size(), Qt::IgnoreAspectRatio);
-        QPalette palette;
-        palette.setBrush(QPalette::Background, *displayImg);
-        this_card->setPalette(palette);
+    QWidget *cardView = new matrixWindow(matrixViewArea);
+    QHBoxLayout *matrixLayout = new QHBoxLayout(matrixView);
+    QWidget *l1 = new QLabel(MatrixView(lhs, this).get_string());
+    QWidget *l2 = new QLabel(operation);
+    QWidget *l3 = new QLabel(MatrixView(rhs, this).get_string());
+    QWidget *l4 = new QLabel(QString("="));
+    QWidget *l5 = new QLabel(MatrixView(result, this).get_string());
 
-        cardDisplayLayout->addWidget(this_card);
-    }
+    matrixLayout->addWidget(l1);
+    matrixLayout->addWidget(l2);
+    matrixLayout->addWidget(l3);
+    matrixLayout->addWidget(l4);
+    matrixLayout->addWidget(l5);
+
+    QPixmap pic("/path/to/your/image");
+    ui->label->setPixmap(pic);
+
+    *displayImg = displayImg->scaled(this_card->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Background, *displayImg);
+    this_card->setPalette(palette);
+
+    m_layout->addWidget(this_card);
+    m_layout->stretch(1);
+
+    //cardDisplayLayout->addWidget(this_card);
+    //}
 }
 
 void GameWindow::returnToMenu()
