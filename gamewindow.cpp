@@ -31,9 +31,9 @@ GameWindow::GameWindow(QWidget *parent) :
     topButtonLayout->addWidget(menuButton);
     m_layout->addWidget(topButtons);
 
-    m_layout->addWidget(moneyDisplays);
+    m_layout->addWidget(moneyDisplayArea);
 
-    m_layout->addWidget(cardDisplays);
+    m_layout->addWidget(cardDisplayArea);
 
     gameOptionsLayout->addWidget(hitButton);
     gameOptionsLayout->addWidget(stayButton);
@@ -77,8 +77,8 @@ void GameWindow::game_start()
     this_card->setMaximumSize(100, 146);
     this_card->setMinimumSize(50, 73);
 
-    QWidget *cardView = new matrixWindow(matrixViewArea);
-    QHBoxLayout *matrixLayout = new QHBoxLayout(matrixView);
+    QWidget *cardView = new CardView(cardDisplayArea);
+    QHBoxLayout *matrixLayout = new QHBoxLayout(cardDisplayArea);
     QWidget *l1 = new QLabel(MatrixView(lhs, this).get_string());
     QWidget *l2 = new QLabel(operation);
     QWidget *l3 = new QLabel(MatrixView(rhs, this).get_string());
@@ -92,8 +92,10 @@ void GameWindow::game_start()
     matrixLayout->addWidget(l5);
 
     QPixmap pic("/path/to/your/image");
-    ui->label->setPixmap(pic);
+   // ui->m_layout->setPixmap(displayImg);
+    ui->
 
+    /*
     *displayImg = displayImg->scaled(this_card->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, *displayImg);
@@ -101,7 +103,7 @@ void GameWindow::game_start()
 
     m_layout->addWidget(this_card);
     m_layout->stretch(1);
-
+*/
     //cardDisplayLayout->addWidget(this_card);
     //}
 }

@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QLayout>
 #include <QEvent>
+#include <QLabel>
 #include <QTimer>
 #include <vector>
 #include <QIcon>
@@ -40,8 +41,8 @@ private:
     QVBoxLayout *m_layout = new QVBoxLayout(this);
 
     QWidget *topButtons = new QWidget(this);
-    QWidget *moneyDisplays = new QWidget(this);
-    QWidget *cardDisplays = new CardView(this);
+    QWidget *moneyDisplayArea = new QWidget(this);
+    QWidget *cardDisplayArea = new CardView(this);
     QWidget *gameOptions = new QWidget(this);
 
     QHBoxLayout *topButtonLayout = new QHBoxLayout(topButtons);
