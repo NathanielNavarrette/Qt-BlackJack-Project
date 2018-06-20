@@ -36,3 +36,8 @@ void CardDeck::shuffleDeck()
     std::srand (unsigned (std::time(0))); //seed rand from current time(ms)
     std::random_shuffle ( m_deck.begin(), m_deck.end() ); //random shuffle, starting from begging to end of vector
 }
+
+bool CardDeck::my_empty()
+{
+    return m_deck.empty();
+}

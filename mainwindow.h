@@ -3,6 +3,7 @@
 
 #include <QSystemTrayIcon>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QSettings>
@@ -11,6 +12,8 @@
 #include <vector>
 #include <QDebug>
 #include <QIcon>
+
+#include <QCloseEvent>
 
 #include "player.h"
 #include "cardview.h"
@@ -32,6 +35,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    void closeEvent(QCloseEvent *event);
 
     QSystemTrayIcon* m_icon = new QSystemTrayIcon(this);
 

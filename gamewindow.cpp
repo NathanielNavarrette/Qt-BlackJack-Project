@@ -7,6 +7,12 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QPixmap test(QPixmap(":/images/images/bg.jpg"));
+    test = test.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette tpalette;
+    tpalette.setBrush(QPalette::Background, test);
+    cardDisplays->setPalette(tpalette);
+
     QIcon qiimg(QPixmap(":/images/images/icon.png"));
     this->setWindowIcon(qiimg);
 
@@ -52,7 +58,6 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(this, SIGNAL(menuReturn()), parent, SLOT(menu_pressed()));
     connect(startButton, SIGNAL(clicked()), this, SLOT(game_start()));
     connect(menuButton, SIGNAL(clicked()), this, SLOT(returnToMenu()));
-
 }
 
 GameWindow::~GameWindow()
@@ -62,10 +67,23 @@ GameWindow::~GameWindow()
 
 void GameWindow::game_start()
 {
-    //show other options
-    //display a bet window
-    //
+    //after clicking this, the options to play the game should show on the bottom
     gameOptions->show();
+
+    while(!(player1.check_if_empty()))
+    {
+        QPixmap* displayImg = player1.get_card();
+        QWidget* this_card = new QWidget(cardDisplays);
+        this_card->setMaximumSize(100, 146);
+        this_card->setMinimumSize(50, 73);
+
+        *displayImg = displayImg->scaled(this_card->size(), Qt::IgnoreAspectRatio);
+        QPalette palette;
+        palette.setBrush(QPalette::Background, *displayImg);
+        this_card->setPalette(palette);
+
+        cardDisplayLayout->addWidget(this_card);
+    }
 }
 
 void GameWindow::returnToMenu()
@@ -75,14 +93,8 @@ void GameWindow::returnToMenu()
 
 void GameWindow::check_active()
 {
-    if (this->isActiveWindow())
-    {
-        //qDebug() << "It is active";
-        //do nothing
-    }else{
-        //qDebug() << "It is not active";
+    if (!(this->isActiveWindow()))
         emit menuReturn();
-    }
 }
 
 void GameWindow::close_game()

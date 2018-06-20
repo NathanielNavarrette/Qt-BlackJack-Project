@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QCoreApplication::setApplicationName("BlackJack");
+
     QIcon qiimg(QPixmap(":/images/images/icon.png"));
     m_icon->setIcon(qiimg);
     this->setWindowIcon(qiimg);
@@ -103,7 +105,7 @@ void MainWindow::return_clicked()
 void MainWindow::close_clicked()
 {
     qDebug() << "Closed button clicked";
-    this->close();
+    //this->close();
     QApplication::quit();
 }
 
@@ -125,4 +127,18 @@ void MainWindow::rules_clicked()
 void MainWindow::about_clicked()
 {
     qDebug() << "about button clicked";
+}
+
+void MainWindow::closeEvent (QCloseEvent *event)
+{
+    event->accept();
+    QMessageBox::StandardButton resBtn = QMessageBox::question( this, "BlackJack",
+                                                                tr("Are you sure?\nDon't forget to save!"),
+                                                                QMessageBox::Cancel | QMessageBox::Ok,
+                                                                QMessageBox::Ok);
+
+    if (resBtn != QMessageBox::Ok)
+        event->ignore();
+    else
+        event->accept();
 }
