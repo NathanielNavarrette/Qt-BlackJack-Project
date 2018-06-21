@@ -27,6 +27,7 @@ public:
     int get_value_at(int pos);
     QString get_name_at(int pos);
     bool my_empty();
+    Card getBlank();
 
 
 private:

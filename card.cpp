@@ -3,14 +3,11 @@
 
 Card::Card()
 {
-    //qDebug() << "Invalid creation of a card";
     //do nothing
 }
 
 Card::Card(std::string cardName, std::string cardFamily)
 {
-    //qDebug() << "Correct creation of card";
-
     QString* card_fam_tmp = new QString(QString::fromStdString(cardFamily));
     *card_fam_tmp = card_fam_tmp->toLower();
     QString* card_name_tmp = new QString(QString::fromStdString(cardName));
@@ -21,6 +18,20 @@ Card::Card(std::string cardName, std::string cardFamily)
     m_value = create_values(cardName, cardFamily);
     m_card_img = new QPixmap(m_img_loc);
 }
+
+void Card::set_blank()
+{
+    m_prev_img = m_card_img;
+    m_img_loc = QString::fromStdString(":/images/images/cards/blank_card.png");
+    m_card_img = new QPixmap(m_img_loc);
+
+}
+
+void Card::flip_blank()
+{
+    m_card_img = m_prev_img;
+}
+
 
 int Card::create_values(std::string &cardName, std::string& cardFamily)
 {

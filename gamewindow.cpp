@@ -7,12 +7,6 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QPixmap test(QPixmap(":/images/images/bg.jpg"));
-    test = test.scaled(this->size(), Qt::IgnoreAspectRatio);
-    QPalette tpalette;
-    tpalette.setBrush(QPalette::Background, test);
-    cardDisplays->setPalette(tpalette);
-
     QIcon qiimg(QPixmap(":/images/images/icon.png"));
     this->setWindowIcon(qiimg);
 
@@ -70,42 +64,57 @@ void GameWindow::game_start()
     //after clicking this, the options to play the game should show on the bottom
     gameOptions->show();
 
-    //while(!(player1.check_if_empty()))
-    //{
-    QPixmap* displayImg = player1.get_card();
-    QWidget* this_card = new QWidget(cardDisplays);
-    this_card->setMaximumSize(100, 146);
-    this_card->setMinimumSize(50, 73);
 
-    QWidget *cardView = new CardView(cardDisplayArea);
-    QHBoxLayout *matrixLayout = new QHBoxLayout(cardDisplayArea);
-    QWidget *l1 = new QLabel(MatrixView(lhs, this).get_string());
-    QWidget *l2 = new QLabel(operation);
-    QWidget *l3 = new QLabel(MatrixView(rhs, this).get_string());
-    QWidget *l4 = new QLabel(QString("="));
-    QWidget *l5 = new QLabel(MatrixView(result, this).get_string());
+    int added_count = 0;
+    std::vector<QWidget*> card_buffer;
+    std::vector<QWidget*> empty_buffer;
 
-    matrixLayout->addWidget(l1);
-    matrixLayout->addWidget(l2);
-    matrixLayout->addWidget(l3);
-    matrixLayout->addWidget(l4);
-    matrixLayout->addWidget(l5);
 
-    QPixmap pic("/path/to/your/image");
-   // ui->m_layout->setPixmap(displayImg);
-    ui->
+    while(!(player1.check_if_empty()))
+    {
+        if(added_count != 13)
+        {
+            qDebug() << "Going into the True for displaying cards";
+            QPixmap* displayImg = player1.get_card();
+            QWidget *card = new CardView(*displayImg, cardDisplayArea);
+            card_buffer.push_back(card);
+            added_count++;
+        }else{
+            qDebug() << "Going into the False/else for displaying cards";
+            QWidget* card_row = new CardView(cardDisplayArea);
+            QHBoxLayout* row_layout = new QHBoxLayout(card_row);
+            for(int i=0;i<card_buffer.size();i++)
+                row_layout->addWidget(card_buffer.at(i));
+            cardDisplayLayout->addWidget(card_row);
+            card_buffer=empty_buffer;
+            added_count=0;
+        }
+    }
 
-    /*
-    *displayImg = displayImg->scaled(this_card->size(), Qt::IgnoreAspectRatio);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, *displayImg);
-    this_card->setPalette(palette);
+    //add the last row to the display
+    if(added_count == 13)
+    {
+        QWidget* card_row = new CardView(cardDisplayArea);
+        QHBoxLayout* row_layout = new QHBoxLayout(card_row);
+        for(int i=0;i<card_buffer.size();i++)
+            row_layout->addWidget(card_buffer.at(i));
+        cardDisplayLayout->addWidget(card_row);
+        card_buffer=empty_buffer;
+        added_count=0;
+    }
 
-    m_layout->addWidget(this_card);
-    m_layout->stretch(1);
-*/
-    //cardDisplayLayout->addWidget(this_card);
-    //}
+    //add the blank card
+    if()
+    {
+        QWidget* card_row = new CardView(cardDisplayArea);
+        QHBoxLayout* row_layout = new QHBoxLayout(card_row);
+
+        for(int i=0;i<card_buffer.size();i++)
+            row_layout->addWidget(card_buffer.at(i));
+        cardDisplayLayout->addWidget(card_row);
+        card_buffer=empty_buffer;
+        added_count=0;
+    }
 }
 
 void GameWindow::returnToMenu()

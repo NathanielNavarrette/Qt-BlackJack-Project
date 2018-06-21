@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <vector>
 #include <QIcon>
+#include <map>
 
 #include"player.h"
 #include"cardview.h"
@@ -51,10 +52,10 @@ private:
     QWidget *saveButton = new QPushButton("Save Game", topButtons);
     QWidget *menuButton = new QPushButton("Go To Menu", topButtons);
 
-    QHBoxLayout *moneyDisplayLayout = new QHBoxLayout(moneyDisplays);
+    QHBoxLayout *moneyDisplayLayout = new QHBoxLayout(moneyDisplayArea);
     std::vector<QWidget*> playerMonies; //will get created in the cpp file
 
-    QHBoxLayout *cardDisplayLayout = new QHBoxLayout(cardDisplays);
+    QVBoxLayout *cardDisplayLayout = new QVBoxLayout(cardDisplayArea);
 
     QHBoxLayout *gameOptionsLayout = new QHBoxLayout(gameOptions);
     QWidget *hitButton = new QPushButton("Hit", gameOptions);

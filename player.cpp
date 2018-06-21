@@ -36,8 +36,18 @@ bool Player::check_if_empty()
     return m_deck->my_empty();
 }
 
-QPixmap* Player::get_card()
+QPixmap* Player::get_card_img()
 {
-    Card tmp_card = m_deck->getCard();
+
     return tmp_card.get_image();
+}
+
+Card Player::get_card()
+{
+
+}
+
+void Player::pull_card()
+{
+    m_tmp_card = m_deck->getCard();
 }

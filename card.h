@@ -17,6 +17,8 @@ public:
     int get_value();
     QString get_card_name();
     QPixmap* get_image();
+    void set_blank();
+    void flip_blank();
 
 private:
     int create_values(std::string &cardName, std::string &cardFamily);
@@ -25,6 +27,7 @@ private:
     QString m_img_loc;
     QString m_card_name;
     QPixmap* m_card_img;
+    QPixmap* m_prev_img;
 
 };
 

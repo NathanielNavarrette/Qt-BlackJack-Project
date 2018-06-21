@@ -42,22 +42,21 @@
         <file>images/cards/ace_of_diamonds.png</file>
         <file>images/cards/ace_of_hearts.png</file>
         <file>images/cards/ace_of_spades.png</file>
-        <file>images/cards/ace_of_spades2.png</file>
-        <file>images/cards/jack_of_clubs2.png</file>
-        <file>images/cards/jack_of_diamonds2.png</file>
-        <file>images/cards/jack_of_hearts2.png</file>
-        <file>images/cards/jack_of_spades2.png</file>
-        <file>images/cards/king_of_clubs2.png</file>
-        <file>images/cards/king_of_diamonds2.png</file>
-        <file>images/cards/king_of_hearts2.png</file>
-        <file>images/cards/king_of_spades2.png</file>
-        <file>images/cards/queen_of_clubs2.png</file>
-        <file>images/cards/queen_of_diamonds2.png</file>
-        <file>images/cards/queen_of_hearts2.png</file>
-        <file>images/cards/queen_of_spades2.png</file>
         <file>images/icon.png</file>
         <file>images/cards/blank_card.png</file>
         <file>images/mybackground.jpg</file>
+        <file>images/cards/jack_of_diamonds.png</file>
+        <file>images/cards/king_of_hearts.png</file>
+        <file>images/cards/jack_of_hearts.png</file>
+        <file>images/cards/queen_of_clubs.png</file>
+        <file>images/cards/queen_of_hearts.png</file>
+        <file>images/cards/king_of_diamonds.png</file>
+        <file>images/cards/queen_of_diamonds.png</file>
+        <file>images/cards/queen_of_spades.png</file>
+        <file>images/cards/jack_of_spades.png</file>
+        <file>images/cards/king_of_clubs.png</file>
+        <file>images/cards/jack_of_clubs.png</file>
+        <file>images/cards/king_of_spades.png</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
