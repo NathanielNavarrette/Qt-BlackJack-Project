@@ -18,6 +18,7 @@
 #include "player.h"
 #include "cardview.h"
 #include "gamewindow.h"
+#include "gameoptions.h"
 #include "optionswindow.h"
 
 namespace Ui {
@@ -33,13 +34,15 @@ public:
     ~MainWindow();
     GameWindow *m_game;
 
-
 private:
     Ui::MainWindow *ui;
 
     void closeEvent(QCloseEvent *event);
 
     QSystemTrayIcon* m_icon = new QSystemTrayIcon(this);
+
+    GameOptions* pass_options;
+    bool m_options_changed = false;
 
     OptionsWindow* m_options_window = new OptionsWindow(this);
 
@@ -67,6 +70,7 @@ private:
 
 public slots:
     void menu_pressed();
+    void recieved_options(GameOptions* my_options);
 
 private slots:
     void play_clicked();
@@ -77,8 +81,8 @@ private slots:
     void rules_clicked();
     void about_clicked();
 
-
 signals:
+    void send_options(GameOptions* send_options);
     void changing_options();
     void displayingRules();
     void displayingAbout();

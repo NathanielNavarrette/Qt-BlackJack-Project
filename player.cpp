@@ -2,7 +2,7 @@
 
 Player::Player()
 {
-    debug_deck();
+    //debug_deck();
 
 }
 

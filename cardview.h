@@ -11,7 +11,6 @@
 #include "carddeck.h"
 #include "card.h"
 
-
 class CardView : public QWidget
 {
     Q_OBJECT
@@ -23,7 +22,6 @@ private:
     void debug_card(QMouseEvent * e);
     QWidget* displayWindow = new QWidget(this);
     QHBoxLayout* m_layout = new QHBoxLayout(displayWindow);
-
 
 signals:
 

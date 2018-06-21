@@ -30,12 +30,12 @@ QString GameOptions::get_string(int pos)
     return QString::fromStdString(dif_string[pos]);
 }
 
-QList<QString> GameOptions::get_difficulty_string()
+QList<QString>* GameOptions::get_difficulty_string()
 {
-    QList<QString> difficulty_list;
+    QList<QString>* difficulty_list = new QList<QString>;
 
     for(int i=0;i<5;i++)
-        difficulty_list.push_back(QString::fromStdString(dif_string[i]));
+        difficulty_list->push_back(QString::fromStdString(dif_string[i]));
     return difficulty_list;
 }
 
@@ -58,4 +58,13 @@ void GameOptions::set_start_money(int money_start)
 void GameOptions::set_min_bet(int bet_min)
 {
     m_min_bet = bet_min;
+}
+
+void GameOptions::debug_options(QString fromwhere)
+{
+    qDebug() << fromwhere << ":";
+    qDebug() << "Number of Players: " << m_num_of_players;
+    qDebug() << "Starting Money: " << m_starting_money;
+    qDebug() << "Minimum Bet: " << m_min_bet;
+    qDebug() << "Difficulty: " << QString::fromStdString(dif_string[m_difficulty_value]);
 }

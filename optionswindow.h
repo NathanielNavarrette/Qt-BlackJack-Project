@@ -26,13 +26,14 @@ public:
     explicit OptionsWindow(QWidget *parent = nullptr);
 
 private:
-    void addOptionsDialog();
     void options_dialog();
+    void rulesDialog();
+    void about_dialog();
 
-    GameOptions m_options;
+    GameOptions* m_options = new GameOptions();
 
 signals:
-    void finished(GameOptions changed_options);
+    void finished(GameOptions* changed_options);
 
 public slots:
     void changingOptions();

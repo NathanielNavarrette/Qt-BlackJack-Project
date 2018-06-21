@@ -5,8 +5,7 @@ CardDeck::CardDeck()
     for(int i=0;i<4;i++)
         for(int j=0;j<13;j++)
             m_deck.push_back(Card(cardNames[j], suitNames[i]));
-
-    //shuffleDeck();
+    shuffleDeck();
 }
 
 Card CardDeck::getCard()

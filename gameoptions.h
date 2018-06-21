@@ -27,13 +27,15 @@ public:
     int get_start_money();
     int get_min_bet();
     QString get_string(int pos);
-    QList<QString> get_difficulty_string();
+    QList<QString> *get_difficulty_string();
 
     //game option mutators:
     void set_difficulty(int diff_num);
     void set_num_players(int player_num);
     void set_start_money(int money_start);
     void set_min_bet(int bet_min);
+
+    void debug_options(QString fromwhere);
 
 private:
     void options_dialog();

@@ -34,7 +34,8 @@ SOURCES += \
     moneydisplay.cpp \
     gameoptions.cpp \
     optionswindow.cpp \
-    gamewindow.cpp
+    gamewindow.cpp \
+    computerai.cpp
 
 
 HEADERS += \
@@ -46,7 +47,8 @@ HEADERS += \
     moneydisplay.h \
     gameoptions.h \
     optionswindow.h \
-    gamewindow.h
+    gamewindow.h \
+    computerai.h
 
 
 FORMS += \

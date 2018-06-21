@@ -85,13 +85,25 @@ void GameWindow::check_size_change()
     }
 }
 
+void GameWindow::recieved_options(GameOptions* send_options)
+{
+    qDebug() << "Recieved options caught";
+    qDebug() << send_options->get_string(send_options->get_difficulty_int());
+    m_options = send_options;
+}
+
 void GameWindow::game_start()
 {
     //after clicking this, the options to play the game should show on the bottom
     gameOptions->show();
     startButton->hide();
+    m_options->debug_options("GameWindow");
 
+    //display_all_cards();
+}
 
+void GameWindow::display_all_cards()
+{
     int added_count = 0;
     std::vector<QWidget*> card_buffer;
     std::vector<QWidget*> empty_buffer;
@@ -103,7 +115,7 @@ void GameWindow::game_start()
     {
         if(added_count != 13)
         {
-            qDebug() << "Going into the True for displaying cards";
+            //qDebug() << "Going into the True for displaying cards";
 
             QPixmap* displayImg = player1.get_card_img();
             QWidget *card = new CardView(*displayImg, cardDisplayArea);
@@ -112,7 +124,7 @@ void GameWindow::game_start()
             added_count++;
             player1.hit_card();
         }else{
-            qDebug() << "Going into the False/else for displaying cards";
+            //qDebug() << "Going into the False/else for displaying cards";
             QWidget* card_row = new CardView(cardDisplayArea);
             QHBoxLayout* row_layout = new QHBoxLayout(card_row);
             for(int i=0;i<card_buffer.size();i++)

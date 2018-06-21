@@ -69,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(this, SIGNAL(displayingRules()), m_options_window, SLOT(displayRules()));
     connect(this, SIGNAL(displayingAbout()), m_options_window, SLOT(displayAbout()));
 
+    connect(m_options_window, SIGNAL(finished(GameOptions*)), this, SLOT(recieved_options(GameOptions*)));
 
     returnButton->hide();
 
@@ -81,6 +82,12 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::recieved_options(GameOptions* my_options)
+{
+    pass_options = my_options;
+    m_options_changed = true;
+}
+
 void MainWindow::menu_pressed()
 {
     m_game->hide();
@@ -91,6 +98,9 @@ void MainWindow::play_clicked()
 {
     qDebug() << "Play button clicked";
     m_game = new GameWindow(this);
+    connect(this, SIGNAL(send_options(GameOptions*)), m_game, SLOT(recieved_options(GameOptions*)));
+    if(m_options_changed)
+        emit send_options(pass_options);
     m_game->show();
     this->hide();
     m_icon->show();

@@ -17,8 +17,10 @@
 #include <QIcon>
 #include <map>
 
-#include"player.h"
-#include"cardview.h"
+#include "player.h"
+#include "cardview.h"
+#include "computerai.h"
+#include "gameoptions.h"
 
 namespace Ui {
     class GameWindow;
@@ -36,6 +38,8 @@ private:
     Ui::GameWindow *ui;
 
     QSystemTrayIcon* m_icon = new QSystemTrayIcon(this);
+
+    GameOptions* m_options = new GameOptions;
 
     QSize m_prev_size;
     Player player1;
@@ -69,8 +73,11 @@ private:
     QWidget *splitButton = new QPushButton("Split", gameOptions);
     QWidget *betButton = new QPushButton("Bet", gameOptions);
 
+    void display_all_cards();
+
 public slots:
     void close_game();
+    void recieved_options(GameOptions *send_options);
 
 private slots:
     //slot to check if window size change to rescale background picture
