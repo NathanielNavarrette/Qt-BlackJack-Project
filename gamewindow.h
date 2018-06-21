@@ -2,6 +2,8 @@
 #define GAMEWINDOW_H
 
 #include <QSystemTrayIcon>
+#include <QCloseEvent>
+#include <QMessageBox>
 #include <QMainWindow>
 #include <QPushButton>
 #include <QScrollArea>
@@ -67,9 +69,21 @@ public slots:
     void close_game();
 
 private slots:
+    //slot to act as a timmer
+     void check_active();
+
+    //slots for menu buttons
+    void reset_pressed();
+    void save_pressed();
     void game_start();
     void returnToMenu();
-    void check_active();
+
+    //slots for game buttons
+    void hit_pressed();
+    void stay_pressed();
+    void split_pressed();
+    void bet_pressed();
+
 
 signals:
     void menuReturn();

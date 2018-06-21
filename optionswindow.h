@@ -23,6 +23,7 @@ public:
 
 private:
     void addOptionsDialog();
+    void options_dialog();
 
     int m_difficulty_value;
     int m_num_of_players = 3;
@@ -35,6 +36,9 @@ signals:
 
 public slots:
     void changingOptions(bool clicked);
+
+private slots:
+
 };
 
 #endif // OPTIONSWINDOW_H

@@ -50,8 +50,18 @@ GameWindow::GameWindow(QWidget *parent) :
     timer->start(50);
 
     connect(this, SIGNAL(menuReturn()), parent, SLOT(menu_pressed()));
+
+    //top menu button connections
     connect(startButton, SIGNAL(clicked()), this, SLOT(game_start()));
     connect(menuButton, SIGNAL(clicked()), this, SLOT(returnToMenu()));
+    connect(resetButton, SIGNAL(clicked()), this, SLOT(reset_pressed()));
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(save_pressed()));
+
+    //game play options/control connections
+    connect(hitButton, SIGNAL(clicked()), this, SLOT(hit_pressed()));
+    connect(stayButton, SIGNAL(clicked()), this, SLOT(stay_pressed()));
+    connect(splitButton, SIGNAL(clicked()), this, SLOT(split_pressed()));
+    connect(betButton, SIGNAL(clicked()), this, SLOT(bet_pressed()));
 }
 
 GameWindow::~GameWindow()
@@ -63,22 +73,28 @@ void GameWindow::game_start()
 {
     //after clicking this, the options to play the game should show on the bottom
     gameOptions->show();
+    startButton->hide();
 
 
     int added_count = 0;
     std::vector<QWidget*> card_buffer;
     std::vector<QWidget*> empty_buffer;
-
+    player1.hit_card();
+    Card my_blank = player1.get_card();
+    my_blank.set_blank();
 
     while(!(player1.check_if_empty()))
     {
         if(added_count != 13)
         {
             qDebug() << "Going into the True for displaying cards";
-            QPixmap* displayImg = player1.get_card();
+
+            QPixmap* displayImg = player1.get_card_img();
             QWidget *card = new CardView(*displayImg, cardDisplayArea);
+            card->setWhatsThis(player1.get_card().get_card_name());
             card_buffer.push_back(card);
             added_count++;
+            player1.hit_card();
         }else{
             qDebug() << "Going into the False/else for displaying cards";
             QWidget* card_row = new CardView(cardDisplayArea);
@@ -104,16 +120,15 @@ void GameWindow::game_start()
     }
 
     //add the blank card
-    if()
+    if(true)
     {
         QWidget* card_row = new CardView(cardDisplayArea);
         QHBoxLayout* row_layout = new QHBoxLayout(card_row);
+        QPixmap* displayImg = my_blank.get_image();
+        QWidget *card = new CardView(*displayImg, cardDisplayArea);
+        row_layout->addWidget(card);
 
-        for(int i=0;i<card_buffer.size();i++)
-            row_layout->addWidget(card_buffer.at(i));
-        cardDisplayLayout->addWidget(card_row);
-        card_buffer=empty_buffer;
-        added_count=0;
+        cardDisplayLayout->addWidget(card_row, Qt::AlignCenter);
     }
 }
 
@@ -130,5 +145,35 @@ void GameWindow::check_active()
 
 void GameWindow::close_game()
 {
+    qDebug() << "Close game";
+}
 
+void GameWindow::reset_pressed()
+{
+    qDebug() << "reset button pressed";
+}
+
+void GameWindow::save_pressed()
+{
+    qDebug() << "save button pressed";
+}
+
+void GameWindow::hit_pressed()
+{
+    qDebug() << "hit button pressed";
+}
+
+void GameWindow::stay_pressed()
+{
+    qDebug() << "stay button pressed";
+}
+
+void GameWindow::split_pressed()
+{
+    qDebug() << "split button pressed";
+}
+
+void GameWindow::bet_pressed()
+{
+    qDebug() << "bet button pressed";
 }

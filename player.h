@@ -22,6 +22,7 @@ public:
     Player();
     int get_current_money();
     QPixmap* get_card_img();
+    void hit_card();
     Card get_card();
     bool check_if_empty();
 

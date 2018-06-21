@@ -63,6 +63,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ruleButton, SIGNAL(clicked()), this, SLOT(rules_clicked()));
     connect(aboutButton, SIGNAL(clicked()), this, SLOT(about_clicked()));
 
+
     returnButton->hide();
 
     ui->centralWidget->setLayout(m_layout);
