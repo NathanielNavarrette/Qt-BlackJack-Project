@@ -7,17 +7,18 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("Black Jack Game");
+
     QIcon qiimg(QPixmap(":/images/images/icon.png"));
     this->setWindowIcon(qiimg);
 
-    this->setMinimumHeight(450);
-    this->setMinimumWidth(450);
+    this->setMinimumHeight(740);
+    this->setMinimumWidth(800);
 
-    QPixmap bkgnd(":/images/images/background.png");
-    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, bkgnd);
-    this->setPalette(palette);
+    m_background_img = QPixmap(":/images/images/background.png");
+    m_background_img = m_background_img.scaled(this->size(), Qt::IgnoreAspectRatio);
+    m_palette.setBrush(QPalette::Background, m_background_img);
+    this->setPalette(m_palette);
 
     topButtonLayout->addWidget(startButton);
     topButtonLayout->addWidget(resetButton);
@@ -41,13 +42,16 @@ GameWindow::GameWindow(QWidget *parent) :
 
     ui->centralwidget->setLayout(m_layout);
 
+    m_prev_size = this->size();
+
     m_icon->show();
     this->show();
 
     QTimer *timer = new QTimer(this);
 
     connect(timer, SIGNAL(timeout()), this, SLOT(check_active()));
-    timer->start(50);
+    connect(timer, SIGNAL(timeout()), this, SLOT(check_size_change()));
+    timer->start(25);
 
     connect(this, SIGNAL(menuReturn()), parent, SLOT(menu_pressed()));
 
@@ -67,6 +71,18 @@ GameWindow::GameWindow(QWidget *parent) :
 GameWindow::~GameWindow()
 {
     delete ui;
+}
+
+void GameWindow::check_size_change()
+{
+    if(this->size() != m_prev_size)
+    {
+        QPixmap bkgnd(":/images/images/background.png");
+        bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+        QPalette palette;
+        palette.setBrush(QPalette::Background, bkgnd);
+        this->setPalette(palette);
+    }
 }
 
 void GameWindow::game_start()
@@ -108,8 +124,14 @@ void GameWindow::game_start()
     }
 
     //add the last row to the display
-    if(added_count == 13)
+    if(added_count == 12)
     {
+        //player1.hit_card();
+        QPixmap* displayImg = player1.get_card_img();
+        QWidget *card = new CardView(*displayImg, cardDisplayArea);
+        card->setWhatsThis(player1.get_card().get_card_name());
+        card_buffer.push_back(card);
+
         QWidget* card_row = new CardView(cardDisplayArea);
         QHBoxLayout* row_layout = new QHBoxLayout(card_row);
         for(int i=0;i<card_buffer.size();i++)
@@ -177,3 +199,5 @@ void GameWindow::bet_pressed()
 {
     qDebug() << "bet button pressed";
 }
+
+

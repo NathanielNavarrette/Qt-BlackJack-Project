@@ -2,12 +2,16 @@
 #define OPTIONSWINDOW_H
 
 #include <QDialogButtonBox>
+#include <QRadioButton>
+#include <QWizardPage>
 #include <QFormLayout>
 #include <QMessageBox>
 #include <QLineEdit>
+#include <QSpinBox>
 #include <QWidget>
 #include <QLayout>
 #include <QDialog>
+#include <QWizard>
 #include <QDebug>
 #include <QLabel>
 #include <vector>
@@ -25,17 +29,15 @@ private:
     void addOptionsDialog();
     void options_dialog();
 
-    int m_difficulty_value;
-    int m_num_of_players = 3;
-    int m_starting_money = 500;
-    int m_min_bet = 20;
-    std::string dif_string[5]{"Novice", "Casual", "Hit Me", "Professional", "Cheaters"};
+    GameOptions m_options;
 
 signals:
     void finished(GameOptions changed_options);
 
 public slots:
-    void changingOptions(bool clicked);
+    void changingOptions();
+    void displayRules();
+    void displayAbout();
 
 private slots:
 

@@ -37,7 +37,11 @@ private:
 
     QSystemTrayIcon* m_icon = new QSystemTrayIcon(this);
 
+    QSize m_prev_size;
     Player player1;
+
+    QPixmap m_background_img;
+    QPalette m_palette;
 
     std::vector<QWidget*> outputtedCards;
 
@@ -69,6 +73,9 @@ public slots:
     void close_game();
 
 private slots:
+    //slot to check if window size change to rescale background picture
+    void check_size_change();
+
     //slot to act as a timmer
      void check_active();
 

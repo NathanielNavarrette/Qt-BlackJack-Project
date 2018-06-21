@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("Black Jack Menu");
+
     QCoreApplication::setApplicationName("BlackJack");
 
     QIcon qiimg(QPixmap(":/images/images/icon.png"));
@@ -63,6 +65,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ruleButton, SIGNAL(clicked()), this, SLOT(rules_clicked()));
     connect(aboutButton, SIGNAL(clicked()), this, SLOT(about_clicked()));
 
+    connect(this, SIGNAL(changing_options()), m_options_window, SLOT(changingOptions()));
+    connect(this, SIGNAL(displayingRules()), m_options_window, SLOT(displayRules()));
+    connect(this, SIGNAL(displayingAbout()), m_options_window, SLOT(displayAbout()));
+
 
     returnButton->hide();
 
@@ -91,6 +97,7 @@ void MainWindow::play_clicked()
 
     displayAreaLayout->removeWidget(playButton);
     delete playButton;
+    delete optionsButton;
     returnButton->show();
 }
 
@@ -100,7 +107,6 @@ void MainWindow::return_clicked()
     m_game->showNormal();
     m_game->show();
     this->hide();
-
 }
 
 void MainWindow::close_clicked()
@@ -113,6 +119,7 @@ void MainWindow::close_clicked()
 void MainWindow::options_clicked()
 {
     qDebug() << "options button clicked";
+    emit changing_options();
 }
 
 void MainWindow::load_clicked()
@@ -123,11 +130,13 @@ void MainWindow::load_clicked()
 void MainWindow::rules_clicked()
 {
     qDebug() << "rules button clicked";
+    emit displayingRules();
 }
 
 void MainWindow::about_clicked()
 {
     qDebug() << "about button clicked";
+    emit displayingAbout();
 }
 
 void MainWindow::closeEvent (QCloseEvent *event)
@@ -137,7 +146,6 @@ void MainWindow::closeEvent (QCloseEvent *event)
                                                                 tr("Are you sure?\nDon't forget to save!"),
                                                                 QMessageBox::Cancel | QMessageBox::Ok,
                                                                 QMessageBox::Ok);
-
     if (resBtn != QMessageBox::Ok)
         event->ignore();
     else

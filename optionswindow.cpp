@@ -2,7 +2,7 @@
 
 OptionsWindow::OptionsWindow(QWidget *parent) : QWidget(parent)
 {
-
+    this->setMaximumWidth(150);
 }
 
 void OptionsWindow::addOptionsDialog()
@@ -10,77 +10,92 @@ void OptionsWindow::addOptionsDialog()
 
 }
 
-void OptionsWindow::changingOptions(bool clicked)
+void OptionsWindow::changingOptions()
 {
-
+    options_dialog();
 }
 
 void OptionsWindow::options_dialog()
 {
-    //might have to change this over to a qwizard class for some odd reason
-    //that way i can just place the stuff inside the dialog box
-    /*
-    QLabel *classNameLabel;
-    QLabel *baseClassLabel;
-    QLineEdit *classNameLineEdit;
-    QLineEdit *baseClassLineEdit;
-    QCheckBox *qobjectMacroCheckBox;
-    QGroupBox *groupBox;
-    QRadioButton *qobjectCtorRadioButton;
-    QRadioButton *qwidgetCtorRadioButton;
-    QRadioButton *defaultCtorRadioButton;
-    QCheckBox *copyCtorCheckBox;
+    QDialog dialog(this);
+    dialog.setMinimumHeight(225);
+    dialog.setMinimumWidth(150);
+    dialog.setMaximumHeight(350);
+    dialog.setMaximumWidth(200);
 
-    setTitle(tr("Class Information"));
-    setSubTitle(tr("Specify basic information about the class for which you "
-                   "want to generate skeleton source code files."));
-    setPixmap(QWizard::LogoPixmap, QPixmap(":/images/logo1.png"));
+    // QForum as a layout for the dialog window
+    QFormLayout form(&dialog);
 
-    classNameLabel = new QLabel(tr("&Class name:"));
-    classNameLineEdit = new QLineEdit;
-    classNameLabel->setBuddy(classNameLineEdit);
+    // Dialog Window Title thing
+    form.addRow(new QLabel("Game Options:"));
 
-    baseClassLabel = new QLabel(tr("B&ase class:"));
-    baseClassLineEdit = new QLineEdit;
-    baseClassLabel->setBuddy(baseClassLineEdit);
+    QLabel* num_of_players_label = new QLabel("Number of Players:");
+    QSpinBox* edit_players = new QSpinBox(&dialog);
+    edit_players->setValue(m_options.get_num_players());
+    edit_players->setMinimum(1);
+    edit_players->setMaximum(4);
 
-    qobjectMacroCheckBox = new QCheckBox(tr("Generate Q_OBJECT &macro"));
+    QLabel* money_label = new QLabel("Starting Money:");
+    QLineEdit* edit_money = new QLineEdit(QString::number(m_options.get_start_money()), &dialog);
 
-    groupBox = new QGroupBox(tr("C&onstructor"));
+    QLabel* bet_label = new QLabel("Minumum Bet:");
+    QLineEdit* edit_bet = new QLineEdit(QString::number(m_options.get_min_bet()), &dialog);
 
-    qobjectCtorRadioButton = new QRadioButton(tr("&QObject-style constructor"));
-    qwidgetCtorRadioButton = new QRadioButton(tr("Q&Widget-style constructor"));
-    defaultCtorRadioButton = new QRadioButton(tr("&Default constructor"));
-    copyCtorCheckBox = new QCheckBox(tr("&Generate copy constructor and "
-                                        "operator="));
+    QLabel* diffcult_label = new QLabel("Difficulty:");
+    QRadioButton* difficulty_list[5];
 
-    defaultCtorRadioButton->setChecked(true);
+    form.addRow(num_of_players_label, edit_players);
+    form.addRow(money_label, edit_money);
+    form.addRow(bet_label, edit_bet);
+    form.addRow(diffcult_label);
 
-    connect(defaultCtorRadioButton, &QAbstractButton::toggled,
-            copyCtorCheckBox, &QWidget::setEnabled);
+    for(int i=0; i<5; i++)
+    {
+        difficulty_list[i] = new QRadioButton(QString(m_options.get_string(i)), this);
+        if(i == m_options.get_difficulty_int())
+            difficulty_list[i]->setChecked(true);
+        form.addRow(difficulty_list[i]);
+    }
 
-    registerField("className*", classNameLineEdit);
-    registerField("baseClass", baseClassLineEdit);
-    registerField("qobjectMacro", qobjectMacroCheckBox);
-    registerField("qobjectCtor", qobjectCtorRadioButton);
-    registerField("qwidgetCtor", qwidgetCtorRadioButton);
-    registerField("defaultCtor", defaultCtorRadioButton);
-    registerField("copyCtor", copyCtorCheckBox);
+    // Add some standard buttons (Cancel/Ok) at the bottom of the dialog
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+                               Qt::Horizontal, &dialog);
+    form.addRow(&buttonBox);
+    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+    QObject::connect(&buttonBox, SIGNAL(rejected()), &dialog, SLOT(reject()));
 
-    QVBoxLayout *groupBoxLayout = new QVBoxLayout;
-    groupBoxLayout->addWidget(qobjectCtorRadioButton);
-    groupBoxLayout->addWidget(qwidgetCtorRadioButton);
-    groupBoxLayout->addWidget(defaultCtorRadioButton);
-    groupBoxLayout->addWidget(copyCtorCheckBox);
-    groupBox->setLayout(groupBoxLayout);
+    // Check what user does with dialog
+    if (dialog.exec() == QDialog::Accepted){
+        qDebug() << "Options Window Accepted";
+        qDebug() << "Number of players inputted: " << edit_players->text().toInt();
+        m_options.set_num_players(edit_players->text().toInt());
+        qDebug() << "Starting Money Inputted: " << edit_money->text().toInt();
+        m_options.set_start_money(edit_money->text().toInt());
+        qDebug() << "Minimum Bet inputted: " << edit_bet->text().toInt();
+        m_options.set_min_bet(edit_bet->text().toInt());
 
-    QGridLayout *layout = new QGridLayout;
-    layout->addWidget(classNameLabel, 0, 0);
-    layout->addWidget(classNameLineEdit, 0, 1);
-    layout->addWidget(baseClassLabel, 1, 0);
-    layout->addWidget(baseClassLineEdit, 1, 1);
-    layout->addWidget(qobjectMacroCheckBox, 2, 0, 1, 2);
-    layout->addWidget(groupBox, 3, 0, 1, 2);
-    setLayout(layout);
-    */
+        for(int i=0;i<5;i++)
+        {
+            if(difficulty_list[i]->isChecked())
+            {
+                qDebug() << "Difficulty Checked: " << m_options.get_string(i);
+                m_options.set_difficulty(i);
+            }
+        }
+
+        // If the user didn't dismiss the dialog, do something with the fields
+    }else{
+        qDebug() << "Options Window Rejected";
+        //just close and do nothing
+    }
+}
+
+void OptionsWindow::displayRules()
+{
+    qDebug() << "Attempting to display Rules";
+}
+
+void OptionsWindow::displayAbout()
+{
+    qDebug() << "Attempting to display About";
 }

@@ -18,6 +18,7 @@
 #include "player.h"
 #include "cardview.h"
 #include "gamewindow.h"
+#include "optionswindow.h"
 
 namespace Ui {
     class MainWindow;
@@ -39,6 +40,8 @@ private:
     void closeEvent(QCloseEvent *event);
 
     QSystemTrayIcon* m_icon = new QSystemTrayIcon(this);
+
+    OptionsWindow* m_options_window = new OptionsWindow(this);
 
     QWidget* displayArea = new QWidget(this);
     QWidget* secondRow = new QWidget(this);
@@ -76,6 +79,9 @@ private slots:
 
 
 signals:
+    void changing_options();
+    void displayingRules();
+    void displayingAbout();
 
 };
 
