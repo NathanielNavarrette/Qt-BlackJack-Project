@@ -177,3 +177,48 @@ void OptionsWindow::about_dialog()
         //just close and do nothing
     }
 }
+
+void OptionsWindow::openBetting()
+{
+    qDebug() << "Attempting to crete betting diaog";
+    bet_dialog();
+}
+
+void OptionsWindow::bet_dialog()
+{
+    qDebug() << "Attempting to display Rules";
+    QDialog dialog(this);
+    dialog.setMinimumHeight(225);
+    dialog.setMinimumWidth(150);
+    //dialog.setMaximumHeight(350);
+    //dialog.setMaximumWidth(200);
+
+    // QForum as a layout for the dialog window
+    QFormLayout form(&dialog);
+
+    // Dialog Window Title thing
+    form.addRow(new QLabel("How Much Do You Want To Bet?:\n"));
+    QLabel* amount_label = new QLabel("Amount: ");
+    QSpinBox* bet_amount = new QSpinBox(&dialog);
+
+    bet_amount->setValue(m_options->get_num_players());
+    bet_amount->setMinimum(1);
+    bet_amount->setMaximum(4);
+
+    form.addRow(amount_label, bet_amount);
+
+    // Add some standard buttons (Cancel/Ok) at the bottom of the dialog
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok,
+                               Qt::Horizontal, &dialog);
+    form.addRow(&buttonBox);
+    QObject::connect(&buttonBox, SIGNAL(accepted()), &dialog, SLOT(accept()));
+
+    // Check what user does with dialog
+    if (dialog.exec() == QDialog::Accepted){
+        qDebug() << "Options Window Accepted";
+        // If the user didn't dismiss the dialog, do something with the fields
+    }else{
+        qDebug() << "Options Window Rejected";
+        //just close and do nothing
+    }
+}

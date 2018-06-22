@@ -21,6 +21,8 @@
 #include "cardview.h"
 #include "computerai.h"
 #include "gameoptions.h"
+#include "moneydisplay.h"
+#include "optionswindow.h"
 
 namespace Ui {
     class GameWindow;
@@ -39,6 +41,7 @@ private:
 
     QSystemTrayIcon* m_icon = new QSystemTrayIcon(this);
 
+    OptionsWindow* m_options_window = new OptionsWindow(this);
     GameOptions* m_options = new GameOptions;
 
     QSize m_prev_size;
@@ -52,7 +55,7 @@ private:
     QVBoxLayout *m_layout = new QVBoxLayout(this);
 
     QWidget *topButtons = new QWidget(this);
-    QWidget *moneyDisplayArea = new QWidget(this);
+    QWidget *moneyDisplayArea = new MoneyDisplay(this);
     QWidget *cardDisplayArea = new CardView(this);
     QWidget *gameOptions = new QWidget(this);
 

@@ -3,6 +3,7 @@
 Player::Player()
 {
     //debug_deck();
+    m_name = "Player1";
 
 }
 
@@ -35,4 +36,20 @@ Card Player::get_card()
 void Player::pull_card()
 {
     m_tmp_card = m_deck->getCard();
+    m_hand_total += m_tmp_card.get_value();
+    check_total();
+}
+
+bool Player::check_total()
+{
+    //if hand is under 21, return true, ELSE return false
+    if(m_hand_total < 21)
+        return true;
+    else
+        return false;
+}
+
+void Player::end_turn()
+{
+    m_hand_total = 0;
 }
