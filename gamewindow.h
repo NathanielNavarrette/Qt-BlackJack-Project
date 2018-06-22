@@ -25,7 +25,7 @@
 #include "optionswindow.h"
 
 namespace Ui {
-    class GameWindow;
+class GameWindow;
 }
 
 class GameWindow : public QMainWindow
@@ -45,12 +45,16 @@ private:
     GameOptions* m_options = new GameOptions;
 
     QSize m_prev_size;
-    Player player1;
+    Player* player1 = new Player;
 
     QPixmap m_background_img;
     QPalette m_palette;
 
-    std::vector<QWidget*> outputtedCards;
+    std::vector<QWidget*> m_cards_buffer;
+    std::vector<QWidget*> m_hand_displays;
+    std::vector<QHBoxLayout*> m_hand_displays_layout;
+
+    QWidget *nothing = new QWidget(this);
 
     QVBoxLayout *m_layout = new QVBoxLayout(this);
 
@@ -76,6 +80,14 @@ private:
     QWidget *splitButton = new QPushButton("Split", gameOptions);
     QWidget *betButton = new QPushButton("Bet", gameOptions);
 
+    //functions to play game
+    void play_game();
+    void draw_cards();
+    void player_turn();
+    void computer_turn(int computer_pos);
+    void check_win();
+
+    //debug the deck and display all cards
     void display_all_cards();
 
 public slots:
@@ -87,7 +99,7 @@ private slots:
     void check_size_change();
 
     //slot to act as a timmer
-     void check_active();
+    void check_active();
 
     //slots for menu buttons
     void reset_pressed();

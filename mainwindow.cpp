@@ -74,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
     returnButton->hide();
 
     ui->centralWidget->setLayout(m_layout);
-    m_icon->show();
+    //m_icon->show();
 }
 
 MainWindow::~MainWindow()
@@ -101,7 +101,10 @@ void MainWindow::play_clicked()
     connect(this, SIGNAL(send_options(GameOptions*)), m_game, SLOT(recieved_options(GameOptions*)));
     if(m_options_changed)
         emit send_options(pass_options);
+    //m_game->setWindowState(Qt::WindowState::WindowActive);
     m_game->show();
+    //this->setWindowState(Qt::WindowState::WindowMinimized);
+
     this->hide();
     m_icon->show();
 

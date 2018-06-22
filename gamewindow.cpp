@@ -6,6 +6,7 @@ GameWindow::GameWindow(QWidget *parent) :
     ui(new Ui::GameWindow)
 {
     ui->setupUi(this);
+    nothing->setMinimumWidth(100);
 
     this->setWindowTitle("Black Jack Game");
 
@@ -44,7 +45,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     m_prev_size = this->size();
 
-    m_icon->show();
+    //m_icon->show();
     this->show();
 
     QTimer *timer = new QTimer(this);
@@ -66,11 +67,74 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(stayButton, SIGNAL(clicked()), this, SLOT(stay_pressed()));
     connect(splitButton, SIGNAL(clicked()), this, SLOT(split_pressed()));
     connect(betButton, SIGNAL(clicked()), this, SLOT(bet_pressed()));
+
+    hitButton->setEnabled(false);
+    stayButton->setEnabled(false);
+    splitButton->setEnabled(false);
+    betButton->setEnabled(false);
 }
 
 GameWindow::~GameWindow()
 {
     delete ui;
+}
+
+void GameWindow::play_game()
+{
+
+    player_turn();
+
+    hitButton->setEnabled(false);
+    stayButton->setEnabled(false);
+    splitButton->setEnabled(false);
+    betButton->setEnabled(false);
+
+    for(int i=0;i<2;i++)
+        computer_turn(i);
+}
+
+void GameWindow::draw_cards()
+{
+
+}
+
+void GameWindow::player_turn()
+{
+    //bool end_player_turn = false;
+
+    hitButton->setEnabled(true);
+    stayButton->setEnabled(true);
+    splitButton->setEnabled(true);
+    betButton->setEnabled(true);
+
+    for(int i=0;i<2;i++)
+    {
+        player1->hit_card();
+        QPixmap* displayImg = player1->get_card_img();
+        QWidget *card = new CardView(*displayImg, cardDisplayArea);
+        card->setWhatsThis(player1->get_card()->get_card_name());
+        m_cards_buffer.push_back(card);
+        m_hand_displays_layout.at(0)->addWidget(m_cards_buffer.at(i));
+    }
+    cardDisplayLayout->addWidget(m_hand_displays.at(0));
+
+    /*
+    while(end_player_turn == false)
+    {
+
+    }
+    */
+
+}
+
+void GameWindow::computer_turn(int computer_pos)
+{
+
+}
+
+void GameWindow::check_win()
+{
+
 }
 
 void GameWindow::check_size_change()
@@ -97,8 +161,28 @@ void GameWindow::game_start()
     //after clicking this, the options to play the game should show on the bottom
     gameOptions->show();
     startButton->hide();
-    m_options->debug_options("GameWindow");
 
+    //display_all_cards();
+    //create the layout on the board for the correct players
+    //there will be 4 each row and only the first and last (4th) will contain stuff
+    int count = 0;
+    for(int i=0;i<m_options->get_num_players();i++)
+    {
+        for(int j=0;j<4;j++)
+        {
+            m_hand_displays.push_back(new QWidget(cardDisplayArea));
+            m_hand_displays_layout.push_back(new QHBoxLayout(m_hand_displays.at(count)));
+            if(j == 1 || 2)
+                for(int k=0;k<5;k++)
+                    m_hand_displays_layout.at(count)->addWidget(nothing);
+            count++;
+        }
+    }
+
+    qDebug() << "Finsihed creating the layouts";
+    play_game();
+
+    //m_options->debug_options("GameWindow");
     //display_all_cards();
 }
 
@@ -107,22 +191,22 @@ void GameWindow::display_all_cards()
     int added_count = 0;
     std::vector<QWidget*> card_buffer;
     std::vector<QWidget*> empty_buffer;
-    player1.hit_card();
-    Card my_blank = player1.get_card();
-    my_blank.set_blank();
+    player1->hit_card();
+    Card* my_blank = player1->get_card();
+    my_blank->set_blank();
 
-    while(!(player1.check_if_empty()))
+    while(!(player1->check_if_empty()))
     {
         if(added_count != 13)
         {
             //qDebug() << "Going into the True for displaying cards";
 
-            QPixmap* displayImg = player1.get_card_img();
+            QPixmap* displayImg = player1->get_card_img();
             QWidget *card = new CardView(*displayImg, cardDisplayArea);
-            card->setWhatsThis(player1.get_card().get_card_name());
+            card->setWhatsThis(player1->get_card()->get_card_name());
             card_buffer.push_back(card);
             added_count++;
-            player1.hit_card();
+            player1->hit_card();
         }else{
             //qDebug() << "Going into the False/else for displaying cards";
             QWidget* card_row = new CardView(cardDisplayArea);
@@ -138,10 +222,10 @@ void GameWindow::display_all_cards()
     //add the last row to the display
     if(added_count == 12)
     {
-        //player1.hit_card();
-        QPixmap* displayImg = player1.get_card_img();
+        //player1->hit_card();
+        QPixmap* displayImg = player1->get_card_img();
         QWidget *card = new CardView(*displayImg, cardDisplayArea);
-        card->setWhatsThis(player1.get_card().get_card_name());
+        card->setWhatsThis(player1->get_card()->get_card_name());
         card_buffer.push_back(card);
 
         QWidget* card_row = new CardView(cardDisplayArea);
@@ -158,7 +242,7 @@ void GameWindow::display_all_cards()
     {
         QWidget* card_row = new CardView(cardDisplayArea);
         QHBoxLayout* row_layout = new QHBoxLayout(card_row);
-        QPixmap* displayImg = my_blank.get_image();
+        QPixmap* displayImg = my_blank->get_image();
         QWidget *card = new CardView(*displayImg, cardDisplayArea);
         row_layout->addWidget(card);
 
