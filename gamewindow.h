@@ -46,10 +46,12 @@ private:
 
     QSize m_prev_size;
     Player* player1 = new Player;
+    std::vector<ComputerAi*> m_cpu;
 
     QPixmap m_background_img;
     QPalette m_palette;
 
+    std::vector<int> m_cpu_locations;
     std::vector<QWidget*> m_cards_buffer;
     std::vector<QWidget*> m_hand_displays;
     std::vector<QHBoxLayout*> m_hand_displays_layout;
@@ -79,6 +81,9 @@ private:
     QWidget *stayButton = new QPushButton("Stay", gameOptions);
     QWidget *splitButton = new QPushButton("Split", gameOptions);
     QWidget *betButton = new QPushButton("Bet", gameOptions);
+
+    //Function to create a vector that holds the locations of the cpu layouts
+    void get_locatons();
 
     //functions to play game
     void play_game();

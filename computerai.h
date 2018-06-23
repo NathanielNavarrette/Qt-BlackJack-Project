@@ -14,6 +14,7 @@ public:
     bool do_hit();
 
 private:
+    int m_difficulty;
     void rng_bet();
     void hit_or_not();
 

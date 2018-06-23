@@ -7,6 +7,7 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     nothing->setMinimumWidth(100);
+    get_locatons();
 
     this->setWindowTitle("Black Jack Game");
 
@@ -79,15 +80,40 @@ GameWindow::~GameWindow()
     delete ui;
 }
 
+void GameWindow::get_locatons()
+{
+    std::vector<int> tmp1;
+    std::vector<int> tmp2;
+    std::vector<int> result;
+    //subtract first two times by 0
+    //subtract second two terms by 2
+    //subtract final two terms by 4
+    for(int i=0;i<6;i++)
+        tmp1.push_back(i*3);
+
+    for(int i=0;i<6;i+=2)
+    {
+        tmp2.push_back(i);
+        tmp2.push_back(i);
+    }
+
+    for(int i=0;i<6;i++)
+        result.push_back(tmp1.at(i)-tmp2.at(i));
+
+    m_cpu_locations = result;
+}
+
 void GameWindow::play_game()
 {
 
     player_turn();
+    draw_cards();
 
     hitButton->setEnabled(false);
     stayButton->setEnabled(false);
     splitButton->setEnabled(false);
     betButton->setEnabled(false);
+
 
     for(int i=0;i<2;i++)
         computer_turn(i);
@@ -95,7 +121,35 @@ void GameWindow::play_game()
 
 void GameWindow::draw_cards()
 {
+    for(int i=0;i<2;i++)
+    {
+        player1->hit_card();
+        QPixmap* displayImg = player1->get_card_img();
+        QWidget *card = new CardView(*displayImg, cardDisplayArea);
+        card->setWhatsThis(player1->get_card()->get_card_name());
+        m_cards_buffer.push_back(card);
+        m_hand_displays_layout.at(0)->addWidget(m_cards_buffer.at(i));
+    }
+    //m_hand_displays_layout.at(0)->addWidget(m_hand_displays.at(0));
+    m_hand_displays.at(0)->setStyleSheet("background-color: red");
+    m_cards_buffer.clear();
 
+    for(int j=1;j<m_cpu.size();j++)
+    {
+        for(int i=0;i<2;i++)
+        {
+            m_cpu.at(j)->hit_card();
+            QPixmap* displayImg = m_cpu.at(j)->get_card_img();
+            QWidget *card = new CardView(*displayImg, cardDisplayArea);
+            card->setWhatsThis(m_cpu.at(j)->get_card()->get_card_name());
+            m_cards_buffer.push_back(card);
+            m_hand_displays_layout.at
+                    (m_cpu_locations.at(j))->addWidget
+                    (m_cards_buffer.at(i));
+        }
+        //cardDisplayLayout->addWidget(m_hand_displays.at(m_cpu_locations.at(j)));
+        m_cards_buffer.clear();
+    }
 }
 
 void GameWindow::player_turn()
@@ -107,6 +161,7 @@ void GameWindow::player_turn()
     splitButton->setEnabled(true);
     betButton->setEnabled(true);
 
+    /*
     for(int i=0;i<2;i++)
     {
         player1->hit_card();
@@ -117,7 +172,7 @@ void GameWindow::player_turn()
         m_hand_displays_layout.at(0)->addWidget(m_cards_buffer.at(i));
     }
     cardDisplayLayout->addWidget(m_hand_displays.at(0));
-
+    */
     /*
     while(end_player_turn == false)
     {
@@ -168,18 +223,34 @@ void GameWindow::game_start()
     int count = 0;
     for(int i=0;i<m_options->get_num_players();i++)
     {
-        for(int j=0;j<4;j++)
+        for(int j=0;j<3;j++)
         {
-            m_hand_displays.push_back(new QWidget(cardDisplayArea));
-            m_hand_displays_layout.push_back(new QHBoxLayout(m_hand_displays.at(count)));
+            QWidget* card_row = new CardView(cardDisplayArea);
+            QHBoxLayout* row_layout = new QHBoxLayout(card_row);
+
+            //card row widget
+            m_hand_displays.push_back(new CardView(cardDisplayArea));
+            //card row layout
+            m_hand_displays_layout.push_back
+                    (new QHBoxLayout(m_hand_displays.at(count)));
+            //m_hand_displays.at(count)->setStyleSheet("background-color: blue");
             if(j == 1 || 2)
                 for(int k=0;k<5;k++)
                     m_hand_displays_layout.at(count)->addWidget(nothing);
+
             count++;
         }
     }
+    m_hand_displays.at(1)->setStyleSheet("background-color: blue");
+    for(int i=0;i<count;i++)
+        cardDisplayLayout->addWidget(m_hand_displays.at(i));
 
     qDebug() << "Finsihed creating the layouts";
+
+    //create the AI computers
+    for(int i=0;i<m_options->get_num_players()+1;i++)
+        m_cpu.push_back(new ComputerAi);
+
     play_game();
 
     //m_options->debug_options("GameWindow");
@@ -295,5 +366,7 @@ void GameWindow::bet_pressed()
 {
     qDebug() << "bet button pressed";
 }
+
+
 
 
