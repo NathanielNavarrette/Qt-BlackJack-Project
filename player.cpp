@@ -16,7 +16,10 @@ Player::Player(int money_start)
 void Player::debug_deck()
 {
     for(int i=0;i<m_deck.get_size();i++)
-        qDebug() << "Card Value: " << (m_deck.get_value_at(i)) << "|| Card Name: " << (m_deck.get_name_at(i));
+        qDebug() << "Card Value: "
+                 << (m_deck.get_value_at(i))
+                 << "|| Card Name: "
+                 << (m_deck.get_name_at(i));
 }
 
 bool Player::check_if_empty()
@@ -46,13 +49,9 @@ Card* Player::get_card()
 
 void Player::pull_card()
 {
-    qDebug() << "PB1";
     m_tmp_card = m_deck.getCard();
-    qDebug() << "PB2";
     m_hand.push_back(*m_tmp_card);
-    qDebug() << "PB3";
     m_hand_total += m_tmp_card->get_value();
-    qDebug() << "PB4";
     //if check_total returns false automatically end the turn
     //if it returns true, continue
     //check_total();

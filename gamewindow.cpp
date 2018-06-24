@@ -98,7 +98,10 @@ void GameWindow::get_locatons()
     }
 
     for(int i=0;i<6;i++)
+    {
         result.push_back(tmp1.at(i)-tmp2.at(i));
+        qDebug() << tmp1.at(i)-tmp2.at(i);
+    }
 
     m_cpu_locations = result;
 }
@@ -121,6 +124,7 @@ void GameWindow::play_game()
 
 void GameWindow::draw_cards()
 {
+    //player draws card
     for(int i=0;i<2;i++)
     {
         player1->hit_card();
@@ -134,11 +138,14 @@ void GameWindow::draw_cards()
     m_hand_displays.at(0)->setStyleSheet("background-color: red");
     m_cards_buffer.clear();
 
+    //Comptuers draw cards
     for(int j=1;j<m_cpu.size();j++)
     {
         for(int i=0;i<2;i++)
         {
             m_cpu.at(j)->hit_card();
+            if(i==1)
+                m_cpu.at(j)->
             QPixmap* displayImg = m_cpu.at(j)->get_card_img();
             QWidget *card = new CardView(*displayImg, cardDisplayArea);
             card->setWhatsThis(m_cpu.at(j)->get_card()->get_card_name());
@@ -218,15 +225,53 @@ void GameWindow::game_start()
     startButton->hide();
 
     //display_all_cards();
+
     //create the layout on the board for the correct players
     //there will be 4 each row and only the first and last (4th) will contain stuff
+    //create a row that has 4 H layouts in them and add 3 of them to card displays
+
+    QWidget* card_row = new CardView(cardDisplayArea);
+    QHBoxLayout* row_layout = new QHBoxLayout(card_row);
+
+    int count=0;
+    int keeptrack=0;
+    for(int i=0;i<3;i++)
+    {
+        QWidget* card_row = new CardView(cardDisplayArea);
+        QHBoxLayout* row_layout = new QHBoxLayout(card_row);
+        for(int j=0;j<4;j++)
+        {
+
+            m_hand_displays.push_back
+                    (new CardView(cardDisplayArea));
+            m_hand_displays_layout.push_back
+                    (new QHBoxLayout(m_hand_displays.at(count)));
+
+            if(j == 1 || 2)
+                for(int k=0;k<5;k++)
+                    m_hand_displays_layout.at(count)->addWidget(nothing);
+            count++;
+
+        }
+
+        keeptrack=count-3;
+        for(int j=keeptrack;j<count;j++)
+        {
+            row_layout->addWidget(m_hand_displays.at(keeptrack));
+        }
+        cardDisplayLayout->addWidget(card_row);
+    }
+
+
+    /*
     int count = 0;
     for(int i=0;i<m_options->get_num_players();i++)
     {
+        QWidget* card_row = new CardView(cardDisplayArea);
+        QHBoxLayout* row_layout = new QHBoxLayout(card_row);
         for(int j=0;j<3;j++)
         {
-            QWidget* card_row = new CardView(cardDisplayArea);
-            QHBoxLayout* row_layout = new QHBoxLayout(card_row);
+
 
             //card row widget
             m_hand_displays.push_back(new CardView(cardDisplayArea));
@@ -240,8 +285,15 @@ void GameWindow::game_start()
 
             count++;
         }
+        for(int j=0;j<m_hand_displays.size();j++)
+        {
+            cardDisplayLayout->addWidget(m_hand_displays.at(j));
+        }
     }
+    */
+
     m_hand_displays.at(1)->setStyleSheet("background-color: blue");
+
     for(int i=0;i<count;i++)
         cardDisplayLayout->addWidget(m_hand_displays.at(i));
 
