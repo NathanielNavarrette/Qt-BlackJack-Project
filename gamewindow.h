@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QScrollArea>
 #include <QSettings>
+//#include <QPixmap>
 #include <QObject>
 #include <QLayout>
 #include <QEvent>
@@ -84,6 +85,7 @@ private:
 
     //Function to create a vector that holds the locations of the cpu layouts
     void get_locatons();
+    void create_layouts();
 
     //functions to play game
     void play_game();

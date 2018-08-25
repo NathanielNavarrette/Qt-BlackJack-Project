@@ -108,7 +108,6 @@ void GameWindow::get_locatons()
 
 void GameWindow::play_game()
 {
-
     player_turn();
     draw_cards();
 
@@ -138,6 +137,7 @@ void GameWindow::draw_cards()
     m_hand_displays.at(0)->setStyleSheet("background-color: red");
     m_cards_buffer.clear();
 
+    /*
     //Comptuers draw cards
     for(int j=1;j<m_cpu.size();j++)
     {
@@ -157,6 +157,7 @@ void GameWindow::draw_cards()
         //cardDisplayLayout->addWidget(m_hand_displays.at(m_cpu_locations.at(j)));
         m_cards_buffer.clear();
     }
+    */
 }
 
 void GameWindow::player_turn()
@@ -218,14 +219,8 @@ void GameWindow::recieved_options(GameOptions* send_options)
     m_options = send_options;
 }
 
-void GameWindow::game_start()
+void GameWindow::create_layouts()
 {
-    //after clicking this, the options to play the game should show on the bottom
-    gameOptions->show();
-    startButton->hide();
-
-    //display_all_cards();
-
     //create the layout on the board for the correct players
     //there will be 4 each row and only the first and last (4th) will contain stuff
     //create a row that has 4 H layouts in them and add 3 of them to card displays
@@ -298,13 +293,24 @@ void GameWindow::game_start()
         cardDisplayLayout->addWidget(m_hand_displays.at(i));
 
     qDebug() << "Finsihed creating the layouts";
+}
+
+void GameWindow::game_start()
+{
+    //after clicking this, the options to play the game should show on the bottom
+    gameOptions->show();
+    startButton->hide();
+
+    display_all_cards();
+
+    //created layouts use to go here
+    //create_layouts();
 
     //create the AI computers
     for(int i=0;i<m_options->get_num_players()+1;i++)
         m_cpu.push_back(new ComputerAi);
 
-    play_game();
-
+    //play_game();
     //m_options->debug_options("GameWindow");
     //display_all_cards();
 }
@@ -315,8 +321,7 @@ void GameWindow::display_all_cards()
     std::vector<QWidget*> card_buffer;
     std::vector<QWidget*> empty_buffer;
     player1->hit_card();
-    Card* my_blank = player1->get_card();
-    my_blank->set_blank();
+
 
     while(!(player1->check_if_empty()))
     {
@@ -363,10 +368,13 @@ void GameWindow::display_all_cards()
     //add the blank card
     if(true)
     {
+        Card* my_blank = player1->get_card();
+        my_blank->set_blank();
         QWidget* card_row = new CardView(cardDisplayArea);
         QHBoxLayout* row_layout = new QHBoxLayout(card_row);
         QPixmap* displayImg = my_blank->get_image();
         QWidget *card = new CardView(*displayImg, cardDisplayArea);
+
         row_layout->addWidget(card);
 
         cardDisplayLayout->addWidget(card_row, Qt::AlignCenter);
